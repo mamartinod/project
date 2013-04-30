@@ -3,7 +3,7 @@ import unittest
 
 class Test_FitsFile(unittest.TestCase):
 
-    def zeroReadSubstract(self):
+    def test_zeroReadSubstract(self):
 
         # TODO create two arrays, open a FitsFile object, and pass them through it
 
