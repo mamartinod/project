@@ -30,7 +30,7 @@ class Test_FitsFile(unittest.TestCase):
 
     def test_box(self):
         fakeFits = FitsFile()
-        fakeFits.data = np.array([[1,2,3],[4,5,6],[7,8,9]])
+        fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
 
         answer = fakeFits.cropBox(0, 0, 2, 2)
 

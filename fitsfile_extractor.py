@@ -29,5 +29,6 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
 
         if x1 < x2 and y1 < y2:
             self.box = np.copy(self.data[x1:x2,y1:y2])
+            return self.box
         else:
-            print "x1 >= x2 or y1 >= y2"
+            return "x1 >= x2 or y1 >= y2"
