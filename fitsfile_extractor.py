@@ -21,7 +21,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
     def zeroReadSubstract(self, data, zeroRead):
         return data - zeroRead
         
-    def box(self, x1, y1, x2, y2):
+    def cropBox(self, x1, y1, x2, y2):
         x1 = int(x1)
         x2 = int(x2)
         y1 = int(y1)
