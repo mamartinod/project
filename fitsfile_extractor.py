@@ -1,12 +1,12 @@
 import pyfits
-
+import numpy as np
 
 class FitsFile(object):  # this will hold a fitsfile so its better to call it a fitsfile
     
     def __init__(self, fits_file = None):
 
         if fits_file: # The default None argument means we can open a FitsFile object without calling load.
-            self.loadfile()
+            self.loadfile(fits_file)
 
 
     def loadfile(self, fits_file):
@@ -20,3 +20,14 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
             
     def zeroReadSubstract(self, data, zeroRead):
         return data - zeroRead
+        
+    def box(self, x1, y1, x2, y2):
+        x1 = int(x1)
+        x2 = int(x2)
+        y1 = int(y1)
+        y2 = int(y2)
+
+        if x1 < x2 and y1 < y2:
+            self.box = np.copy(self.data[x1:x2,y1:y2])
+        else:
+            print "x1 >= x2 or y1 >= y2"

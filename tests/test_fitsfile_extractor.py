@@ -28,7 +28,12 @@ class Test_FitsFile(unittest.TestCase):
         self.assertTrue(np.all(answer == expected))  # you need to use np.all to compare arrays as otherwise they
         # compare each value so you get a return of [True, True],[True, True]
 
-
+    def test_box(self):
+        fakeFits = FitsFile()
+        self.box = np.array([[1,2,3],[4,5,6],[7,8,9]])
+        answer = fakeFits.box(0,0,2,2)
+        expected = np.array([[0,1],[3,4]])
+        self.assertTrue(np.all(answer == expected))
 
 
 if __name__ == '__main__':

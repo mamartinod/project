@@ -1,14 +1,15 @@
 # -*- coding: Latin-1 -*-
-
 import unittest
+import numpy
+from math import floor
 
-def plus(a, b):
-    return a+b
+x1 = 0
+x2 = 2
+y1 = 0
+y2 = 2
+a = numpy.array([[0,1,2],[3,4,5],[6,7,8]])
 
-class TestAddition(unittest.TestCase):
-    def test_addition(self):
-        result = plus(36,6)
-        self.assertEqual(result, 42)
-        
-if __name__ == '__main__':
-    unittest.main()
+d = numpy.copy(a[x1:x2,y1:y2])
+print a
+
+print d
