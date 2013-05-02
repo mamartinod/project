@@ -34,16 +34,16 @@ class Test_FitsFile(unittest.TestCase):
 
         answer = fakeFits.cropBox(0, 0, 2, 2)
 
-        print answer # temp so you can see what its returning
+        print answer  # temp so you can see what its returning
 
         expected = np.array([[0,1],[3,4]])
         self.assertTrue(np.all(answer == expected))
         
-    def test_cropBoxmean(self):
+    def test_spectrumBox(self):
         fakeFits = FitsFile()
-        fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
+        fakeFits.box = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        answer = fakeFits.cropBoxMean(0,0,3,3)
+        answer = fakeFits.spectrumBox()
         print answer
         
         expected = np.array([[3., 4., 5.]])
