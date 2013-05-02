@@ -1,5 +1,6 @@
 import pyfits
 import numpy as np
+import matplotlib.pyplot as plt
 
 class FitsFile(object):  # this will hold a fitsfile so its better to call it a fitsfile
     
@@ -33,6 +34,16 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def cropBoxMean(self): #Mean of the spectrum
-            self.mean = self.box.mean(axis=0).reshape(1,len(self.box.mean(axis=0)))
-            return self.mean
+    def cropBoxMean(self, x1, y1, x2, y2): #Mean of the spectrum
+        
+        self.box = self.cropBox(x1, y1, x2, y2)
+        self.mean = self.box.mean(axis=0)
+        return self.mean
+        
+    def plot(self, plotted):
+        plt.plot(plotted)
+        return plt.show()
+        
+        #self.plot = plt.show()
+        #return self.plot
+        
