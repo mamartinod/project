@@ -34,13 +34,13 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def spectrumBoxVert(self): #vertical averaging
-        self.spectrumName = "Vertical averaging spectrum"
+    def spectrum(self): #vertical averaging
+        self.spectrumName = "Spectrum (summed over the scan)"
         self.spectrumVert = self.box.mean(axis=0)
         return self.spectrumVert
         
-    def spectrumBoxHorz(self): #horizontal averaging
-        self.spectrumName = "Horizontal averaging spectrum"
+    def spatialspectrum(self): #horizontal averaging
+        self.spectrumName = "Spectrum in spatial direction"
         self.spectrumHorz = self.box.mean(axis=1)
         return self.spectrumHorz
         
