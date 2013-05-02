@@ -28,7 +28,7 @@ class Test_FitsFile(unittest.TestCase):
         self.assertTrue(np.all(answer == expected))  # you need to use np.all to compare arrays as otherwise they
         # compare each value so you get a return of [True, True],[True, True]
 
-    def test_box(self):
+    def test_cropBox(self):
         fakeFits = FitsFile()
         fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
 
@@ -37,6 +37,16 @@ class Test_FitsFile(unittest.TestCase):
         print answer # temp so you can see what its returning
 
         expected = np.array([[0,1],[3,4]])
+        self.assertTrue(np.all(answer == expected))
+        
+    def test_cropBoxmean(self):
+        fakeFits = FitsFile()
+        fakeFits.box = np.array([[0,1,2],[3,4,5],[6,7,8]])
+        
+        answer = fakeFits.cropBoxMean()
+        print answer
+        
+        expected = np.array([[3., 4., 5.]])
         self.assertTrue(np.all(answer == expected))
 
 
