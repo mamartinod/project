@@ -34,16 +34,22 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def spectrumBox(self): #Mean of the spectrum
-        self.spectrum = self.box.mean(axis=0)
-        return self.spectrum
+    def spectrumBoxVert(self): #vertical averaging
+        self.spectrumName = "Vertical averaging spectrum"
+        self.spectrumVert = self.box.mean(axis=0)
+        return self.spectrumVert
+        
+    def spectrumBoxHorz(self): #horizontal averaging
+        self.spectrumName = "Horizontal averaging spectrum"
+        self.spectrumHorz = self.box.mean(axis=1)
+        return self.spectrumHorz
         
     def plot(self, plotted):
-        plt.plot(plotted)
+        plt.plot(plotted, '+')
+        plt.xlabel("pixels")
+        plt.ylabel("intensity")
+        plt.title(self.spectrumName)
         return plt.show()
         
-        #self.plot = plt.show()
-        #return self.plot
+    #def polyfit(self, pixel, fitted):
         
-    
-
