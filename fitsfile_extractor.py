@@ -34,11 +34,9 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def cropBoxMean(self, x1, y1, x2, y2): #Mean of the spectrum
-        
-        self.box = self.cropBox(x1, y1, x2, y2)
-        self.mean = self.box.mean(axis=0)
-        return self.mean
+    def spectrumBox(self): #Mean of the spectrum
+        self.spectrum = self.box.mean(axis=0)
+        return self.spectrum
         
     def plot(self, plotted):
         plt.plot(plotted)
@@ -47,3 +45,5 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         #self.plot = plt.show()
         #return self.plot
         
+    
+
