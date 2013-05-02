@@ -34,7 +34,7 @@ class Test_FitsFile(unittest.TestCase):
 
         answer = fakeFits.cropBox(0, 0, 2, 2)
 
-        print answer # temp so you can see what its returning
+        print answer  # temp so you can see what its returning
 
         expected = np.array([[0,1],[3,4]])
         self.assertTrue(np.all(answer == expected))

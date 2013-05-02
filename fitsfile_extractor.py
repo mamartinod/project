@@ -33,6 +33,6 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def cropBoxMean(self): #Mean of the spectrum
-            self.mean = self.box.mean(axis=0).reshape(1,len(self.box.mean(axis=0)))
-            return self.mean
+    def spectrum(self): #Mean of the spectrum
+            self.spectrum = self.box.mean(axis=0).reshape(1,len(self.box.mean(axis=0)))
+            return self.spectrum
