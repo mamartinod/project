@@ -21,14 +21,18 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
     def zeroReadSubstract(self, data, zeroRead):
         return data - zeroRead
         
-    def cropBox(self, x1, y1, x2, y2):
+    def cropBox(self, x1, y1, x2, y2): #Extract the spectrum
         x1 = int(x1)
         x2 = int(x2)
         y1 = int(y1)
         y2 = int(y2)
 
         if x1 < x2 and y1 < y2:
-            self.box = np.copy(self.data[x1:x2,y1:y2])
+            self.box = np.copy(self.data[y1:y2,x1:x2])
             return self.box
         else:
             return "x1 >= x2 or y1 >= y2"
+            
+    def cropBoxMean(self): #Mean of the spectrum
+            self.mean = self.box.mean(axis=0).reshape(1,len(self.box.mean(axis=0)))
+            return self.mean
