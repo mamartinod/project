@@ -12,7 +12,7 @@ fits.cropBox(62,153,193,242)
 fits.spatialSpectrum()
 #fits.plot(fits.spatialspectrum)
 
-fits.spectrum()
+fits.Spectrum()
 #fits.plot(fits.spectrum)
 
-fits.fitting(fits.spectrum, 1)
+fits.fitting(fits.spectrum, 5)

@@ -35,7 +35,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         else:
             return "x1 >= x2 or y1 >= y2"
             
-    def spectrum(self): #vertical averaging
+    def Spectrum(self): #vertical averaging
         self.spectrumName = "Spectrum (summed over the scan)"
         self.spectrum = self.box.mean(axis=0)
         return self.spectrum
@@ -52,19 +52,20 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         plt.ylabel("intensity")
         plt.title(self.spectrumName)
         return plt.show()
-        
+
+    
     def fitting(self, y, order):
         order = int(order)
         x = np.arange(len(y))
-        fit = np.polyfit(y, x, order)
+        fit = np.polyfit(y,x,order)
         self.p = np.poly1d(fit)
-        xp = np.linspace(0, len(y), 10*len(y))
-        
-        popt = curve_fit(self.p, x, y)
+        #xp = np.linspace(0, len(y), 10*len(y))
         
         plt.figure()
-        plt.plot(x,y,'+', x, popt, 'g-')
+        plt.plot(x, y, '+', x, self.p(x))
         plt.xlabel('pixels')
         plt.ylabel('intensity')
-        plt.title("fit of {} by a polynom of order {}".format(self.spectrumName, order))
+        plt.title("fit of {} by a polynom of order 2".format(self.spectrumName))
         return plt.show()
+        
+    
