@@ -39,21 +39,21 @@ class Test_FitsFile(unittest.TestCase):
         expected = np.array([[0,1],[3,4]])
         self.assertTrue(np.all(answer == expected))
         
-    def test_spectrumBoxVert(self):
+    def test_spectrumt(self):
         fakeFits = FitsFile()
         fakeFits.box = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        answer = fakeFits.spectrumBoxVert()
+        answer = fakeFits.spectrum()
         print answer
         
         expected = np.array([[3., 4., 5.]])
         self.assertTrue(np.all(answer == expected))
         
-    def test_spectrumBoxHorz(self):
+    def test_spatialspectrum(self):
         fakeFits = FitsFile()
         fakeFits.box = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        answer = fakeFits.spectrumBoxHorz()
+        answer = fakeFits.spatialspectrum()
         print answer
         
         expected = np.array([[1., 4., 7.]])
