@@ -8,11 +8,14 @@ fits = FitsFile("ibxy01aoq_raw.fits")
 
 #pl.imshow(fits.data)
 #pl.show()
-fits.cropBox(62,153,193,242)
-fits.spatialSpectrum()
+#fits.cropBox(62,153,193,242)
+#fits.spatialSpectrum()
 #fits.plot(fits.spatialspectrum)
 
-fits.Spectrum()
+#fits.Spectrum()
 #fits.plot(fits.spectrum)
 
+#fits.fitting(fits.spectrum)
+
+fits.spectrum = fits.data.mean(axis=0)
 fits.fitting(fits.spectrum)

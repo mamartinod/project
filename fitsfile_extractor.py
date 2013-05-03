@@ -2,6 +2,8 @@ import pyfits
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from scipy.misc import factorial
+
 
 class FitsFile(object):  # this will hold a fitsfile so its better to call it a fitsfile
     
@@ -62,19 +64,44 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         #xp = np.linspace(0, len(y), 10*len(y))"""
         
         x = np.arange(len(y))
-        def func(x, a, b, c):
-            return a +b*x + c*x**2
+        def func(x, a,b,c,d):
+            return a + b*x + c*x**2 + d*x**3
+            
+        def gauss(x, a, mu, sigma): #gaussian
+            return a*np.exp(-(x-mu)**2/(2*sigma**2))
+            
+        def cauchy(x, a, b, c): #Cauchy distribution
+            return a/(1+((x-b)/c)**2)
+            
+        def poisson(x, a, b): #Poisson
+            return np.exp(-a)*a**b/factorial(b)
             
         popt, pcov = curve_fit(func, x, y)
         self.popt = popt
-        yf = func(x, popt[0], popt[1], popt[2])
+        yf = func(x, popt[0], popt[1], popt[2], popt[3])
+        
+        gaussp, gausscov = curve_fit(gauss, x, y)
+        self.gaussp = gaussp
+        ygauss = gauss(x, gaussp[0], gaussp[1], gaussp[2])
+        print gauss(x, gaussp[0], gaussp[1], gaussp[2])
+        
+        cauchyp, cauchycov = curve_fit(cauchy, x, y)
+        self.cauchyp = cauchyp
+        ycauchy = cauchy(x, cauchyp[0], cauchyp[1], cauchyp[2])
+        self.cauchy = ycauchy
+        
+        poissonp, poissoncov = curve_fit(poisson, x, y)
+        self.poissonp = poissonp
+        ypoisson = poisson(x, poissonp[0], poissonp[1])
+        self.poisson = ypoisson
         
         plt.figure()
         #plt.plot(x, y, '+', x, self.p(x))
-        plt.plot(x, y, '+', x, yf, '-')
+        #plt.plot(x, y, 'b+', x, yf, 'g-', x, ygauss, 'r.', x, ycauchy, 'yo', x, ypoisson, 'v')
+        plt.plot(x, y, x, ygauss)
         plt.xlabel('pixels')
         plt.ylabel('intensity')
-        plt.title("fit of {} by a polynom of order 2".format(self.spectrumName))
+        #plt.title("fit of {} by a polynom of order 2".format(self.spectrumName))
         return plt.show()
         
     
