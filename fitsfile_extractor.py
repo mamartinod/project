@@ -54,15 +54,24 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         return plt.show()
 
     
-    def fitting(self, y, order):
-        order = int(order)
+    def fitting(self, y):
+        """order = int(order)
         x = np.arange(len(y))
         fit = np.polyfit(y,x,order)
         self.p = np.poly1d(fit)
-        #xp = np.linspace(0, len(y), 10*len(y))
+        #xp = np.linspace(0, len(y), 10*len(y))"""
+        
+        x = np.arange(len(y))
+        def func(x, a, b, c):
+            return a +b*x + c*x**2
+            
+        popt, pcov = curve_fit(func, x, y)
+        self.popt = popt
+        yf = func(x, popt[0], popt[1], popt[2])
         
         plt.figure()
-        plt.plot(x, y, '+', x, self.p(x))
+        #plt.plot(x, y, '+', x, self.p(x))
+        plt.plot(x, y, '+', x, yf, '-')
         plt.xlabel('pixels')
         plt.ylabel('intensity')
         plt.title("fit of {} by a polynom of order 2".format(self.spectrumName))

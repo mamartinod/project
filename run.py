@@ -15,4 +15,4 @@ fits.spatialSpectrum()
 fits.Spectrum()
 #fits.plot(fits.spectrum)
 
-fits.fitting(fits.spectrum, 5)
+fits.fitting(fits.spectrum)
