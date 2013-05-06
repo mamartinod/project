@@ -52,56 +52,28 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         plt.plot(plotted, 'r+')
         plt.xlabel("pixels")
         plt.ylabel("intensity")
-        plt.title(self.spectrumName)
+        #plt.title(self.spectrumName)
         return plt.show()
 
     
-    def fitting(self, y):
-        """order = int(order)
-        x = np.arange(len(y))
-        fit = np.polyfit(y,x,order)
-        self.p = np.poly1d(fit)
-        #xp = np.linspace(0, len(y), 10*len(y))"""
-        
-        x = np.arange(len(y))
-        def func(x, a,b,c,d):
-            return a + b*x + c*x**2 + d*x**3
+    def derivation(self, array):
+        i = 0
+        derivative = []
+        while i < len(array)-1:
+            derivative.append(array[i+1]-array[i])
+            i = i+1
+            if i >=300: break
             
-        def gauss(x, a, mu, sigma): #gaussian
-            return a*np.exp(-(x-mu)**2/(2*sigma**2))
-            
-        def cauchy(x, a, b, c): #Cauchy distribution
-            return a/(1+((x-b)/c)**2)
-            
-        def poisson(x, a, b): #Poisson
-            return np.exp(-a)*a**b/factorial(b)
-            
-        popt, pcov = curve_fit(func, x, y)
-        self.popt = popt
-        yf = func(x, popt[0], popt[1], popt[2], popt[3])
+        self.derivative = np.array(derivative)
+        return self.derivative
         
-        gaussp, gausscov = curve_fit(gauss, x, y)
-        self.gaussp = gaussp
-        ygauss = gauss(x, gaussp[0], gaussp[1], gaussp[2])
-        print gauss(x, gaussp[0], gaussp[1], gaussp[2])
+    """def autoExtract(self, array):
+        i = 0
+        extraction = []
+        while i < len(array) or i <= 300:
+            if i >= self.derivation(array).argmax()-10 and i <= self.derivation(array).argmin() and abs(array[self.derivation(array).argmax()+1]-array[self.derivation(array).argmax()]) >500 and abs(array[self.derivation(array).argmin()+1]-array[self.derivation(array).argmin()]) >500:
+                extraction.append(array[i])
+            i = i+1
+        self.extraction = np.array(extraction)
+        return self.extraction"""
         
-        cauchyp, cauchycov = curve_fit(cauchy, x, y)
-        self.cauchyp = cauchyp
-        ycauchy = cauchy(x, cauchyp[0], cauchyp[1], cauchyp[2])
-        self.cauchy = ycauchy
-        
-        poissonp, poissoncov = curve_fit(poisson, x, y)
-        self.poissonp = poissonp
-        ypoisson = poisson(x, poissonp[0], poissonp[1])
-        self.poisson = ypoisson
-        
-        plt.figure()
-        #plt.plot(x, y, '+', x, self.p(x))
-        #plt.plot(x, y, 'b+', x, yf, 'g-', x, ygauss, 'r.', x, ycauchy, 'yo', x, ypoisson, 'v')
-        plt.plot(x, y, x, ygauss)
-        plt.xlabel('pixels')
-        plt.ylabel('intensity')
-        #plt.title("fit of {} by a polynom of order 2".format(self.spectrumName))
-        return plt.show()
-        
-    

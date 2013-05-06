@@ -3,6 +3,7 @@
 
 import pylab as pl
 from fitsfile_extractor import FitsFile
+import numpy as np
 
 fits = FitsFile("ibxy01aoq_raw.fits")
 
@@ -17,5 +18,6 @@ fits = FitsFile("ibxy01aoq_raw.fits")
 
 #fits.fitting(fits.spectrum)
 
-fits.spectrum = fits.data.mean(axis=0)
-fits.fitting(fits.spectrum)
+fits.spectrum = fits.data.mean(axis=0)/fits.data.mean(axis=0).sum()
+fits.plot(fits.spectrum)
+fits.plot(fits.derivation(fits.spectrum))
