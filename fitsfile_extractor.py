@@ -1,8 +1,7 @@
 import pyfits
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-from scipy.misc import factorial
+from scipy.signal import medfilt
 
 
 class FitsFile(object):  # this will hold a fitsfile so its better to call it a fitsfile
@@ -62,18 +61,28 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         while i < len(array)-1:
             derivative.append(array[i+1]-array[i])
             i = i+1
-            if i >=300: break
+            if i >=300:
+                break
             
         self.derivative = np.array(derivative)
         return self.derivative
         
-    """def autoExtract(self, array):
+    def medianFilter(self, array):
+        self.medfilt = medfilt(array).copy()
+        return self.medfilt
+        
+        
+    def autoExtract(self, array):
+        derivmax = self.medianFilter(self.derivation(array)).argmax()
+        derivmin = self.medianFilter(self.derivation(array)).argmin()
         i = 0
         extraction = []
         while i < len(array) or i <= 300:
-            if i >= self.derivation(array).argmax()-10 and i <= self.derivation(array).argmin() and abs(array[self.derivation(array).argmax()+1]-array[self.derivation(array).argmax()]) >500 and abs(array[self.derivation(array).argmin()+1]-array[self.derivation(array).argmin()]) >500:
+            if i >= derivmax and i <= derivmin:
                 extraction.append(array[i])
             i = i+1
         self.extraction = np.array(extraction)
-        return self.extraction"""
+        self.derivmax = derivmax
+        self.derivmin = derivmin
+        return self.extraction
         

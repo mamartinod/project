@@ -3,23 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.misc import factorial
+from scipy.signal import medfilt
 
-x = np.array([1,2,7,7,7,2,1])
-y = []
-z = []
+x = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+y = x[:]
 
-y = x.sum()
-print y
-"""i=0
-while i < len(x)-1:
-    z.append(x[i+1]-x[i])
-    i = i+1
-z = np.array(z)
-print z
-i = 0
-while i < len(x):
-    if i >= z.argmax() and i <= z.argmin()+1:
-        y.append(x[i])
-    i = i+1
-    
-print y"""
+if x.all() == y.all(): 
+    print True
+else:
+    print False
+
+
