@@ -70,7 +70,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         derivmin = self.medianFilter(self.derivation(array)).argmin()
         i = 0
         extraction = []
-        while i < len(array) or i <= 300:
+        while i < len(array):
             if i >= derivmax and i <= derivmin:
                 extraction.append(array[i])
             else:
