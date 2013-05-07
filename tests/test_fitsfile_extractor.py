@@ -32,7 +32,8 @@ class Test_FitsFile(unittest.TestCase):
         fakeFits = FitsFile()
         fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        answer = fakeFits.Spectrum(fakeFits.data)        
+        fakeFits.spectrum(fakeFits.data)
+        answer = fakeFits.spectrum.data        
         expected = np.array([[3., 4., 5.]])
 
         self.assertTrue(np.all(answer == expected))
@@ -41,7 +42,8 @@ class Test_FitsFile(unittest.TestCase):
         fakeFits = FitsFile()
         fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        answer = fakeFits.spatialSpectrum(fakeFits.data)
+        fakeFits.spatialSpectrum(fakeFits.data)
+        answer = fakeFits.spatialspectrum.data
         expected = np.array([[1., 4., 7.]])
         
         self.assertTrue(np.all(answer == expected))
@@ -69,7 +71,7 @@ class Test_FitsFile(unittest.TestCase):
         fakeFits.data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
 
         answer = fakeFits.autoExtract(fakeFits.data)
-        expected = np.array([1,2,3,7,7,7,7,7,7,7,7])
+        expected = np.array([0,0,0,0,0,1,2,3,7,7,7,7,7,7,7,7,0,0,0])
 
         self.assertTrue(np.all(answer == expected))
 
