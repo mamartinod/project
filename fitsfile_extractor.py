@@ -9,13 +9,12 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
     def __init__(self, fits_file=None):
 
         if fits_file: # The default None argument means we can open a FitsFile object without calling load.
-            self.loadfile(fits_file)
+            self.loadfile(fits_file);
 
 
     def loadfile(self, fits_file):
         """ I created this method to split the code up a bit and allow me to create a unit test for loading without
-        having to make a actual fits file
-        """
+        having to make a actual fits file"""
 
         with pyfits.open(fits_file) as dataFile:
             self.header = dataFile[0].header
@@ -24,24 +23,24 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
     def zeroReadSubstract(self, data, zeroRead):
         return data - zeroRead
             
-    def Spectrum(self, data): #vertical averaging
-        self.spectrumName = "Spectrum (summed over the scan)"
-        self.spectrum = data.mean(axis=0)
+    def spectrum(self, data): #vertical averaging
+        name = "Spectrum (summed over the scan)"
+        self.spectrum = Spectrum(data.mean(axis=0), name)
         return self.spectrum
         
     def spatialSpectrum(self, data): #horizontal averaging
-        self.spectrumName = "Signal in spatial direction"
-        self.spatialspectrum = data.mean(axis=1)
+        name = "Signal in spatial direction"
+        self.spatialspectrum = Spectrum(data.mean(axis=1), name)
         return self.spatialspectrum
         
-    def plot(self, plotted): #Plot data
+    """def plot(self, plotted): #Plot data
         plt.figure()
         plt.plot(plotted, 'r+')
         plt.xlabel("pixels")
         plt.ylabel("intensity")
-        if self.spectrumName:
+        if plotted.name:
             plt.title(self.spectrumName)
-        return plt.show()
+        return plt.show()"""
 
     
     def derivation(self, array):#Get the derivative of a 1D-array.
@@ -56,7 +55,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         self.derivative = np.array(derivative)
         return self.derivative
         
-    def medianFilter(self, array):#remove sal-and-pepper noise
+    def medianFilter(self, array):#remove salt-and-pepper noise
         self.medfilt = medfilt(array).copy()
         return self.medfilt
         
@@ -64,7 +63,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
     def autoExtract(self, array):#Extract signal from a 1D-array
         """This method derives the signal. The idea is the extrema values of 
         the derivative flank the signal which has to be extracted. It is very 
-        sensitive to cosmic ray so it deals with a derivative signal which have
+        sensitive to artefacts so it should deal with a derivative signal which have
         passed through a median filter which remove artefacts from cosmic rays."""
         
         derivmax = self.medianFilter(self.derivation(array)).argmax()
@@ -74,9 +73,28 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         while i < len(array) or i <= 300:
             if i >= derivmax and i <= derivmin:
                 extraction.append(array[i])
+            else:
+                extraction.append(0)
             i = i+1
         self.extraction = np.array(extraction)
         self.derivmax = derivmax
         self.derivmin = derivmin
         return self.extraction
         
+        
+class Spectrum(object):
+    def __init__(self, data, name="Plot", xaxis="Pixels", yaxis="Intensity"):
+        self.name = name
+        self.data = data
+        if xaxis:
+            self.xaxis = xaxis
+        if yaxis:
+            self.yaxis = yaxis
+            
+    def plot(self, plotted): #Plot data
+        plt.figure()
+        plt.plot(plotted, 'r+')
+        plt.xlabel(self.xaxis)
+        plt.ylabel(self.yaxis)
+        plt.title(self.name)
+        return plt.show()
