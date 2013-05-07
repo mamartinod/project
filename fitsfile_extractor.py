@@ -82,7 +82,7 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         return self.extraction
         
         
-class Spectrum(object):
+class Spectrum(object): #hold the spectra and its extracted part. Called by FitsFile which will cut it
     def __init__(self, data, name="Plot", xaxis="Pixels", yaxis="Intensity"):
         self.name = name
         self.data = data
