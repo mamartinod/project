@@ -23,39 +23,28 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
             
     def zeroReadSubstract(self, data, zeroRead):
         return data - zeroRead
-        
-    def cropBox(self, x1, y1, x2, y2): #Extract the spectrum
-        x1 = int(x1)
-        x2 = int(x2)
-        y1 = int(y1)
-        y2 = int(y2)
-
-        if x1 < x2 and y1 < y2:
-            self.box = np.copy(self.data[y1:y2,x1:x2])
-            return self.box
-        else:
-            return "x1 >= x2 or y1 >= y2"
             
-    def Spectrum(self): #vertical averaging
+    def Spectrum(self, data): #vertical averaging
         self.spectrumName = "Spectrum (summed over the scan)"
-        self.spectrum = self.box.mean(axis=0)
+        self.spectrum = data.mean(axis=0)
         return self.spectrum
         
-    def spatialSpectrum(self): #horizontal averaging
-        self.spectrumName = "Spectrum in spatial direction"
-        self.spatialspectrum = self.box.mean(axis=1)
+    def spatialSpectrum(self, data): #horizontal averaging
+        self.spectrumName = "Signal in spatial direction"
+        self.spatialspectrum = data.mean(axis=1)
         return self.spatialspectrum
         
-    def plot(self, plotted):
+    def plot(self, plotted): #Plot data
         plt.figure()
         plt.plot(plotted, 'r+')
         plt.xlabel("pixels")
         plt.ylabel("intensity")
-        #plt.title(self.spectrumName)
+        if self.spectrumName:
+            plt.title(self.spectrumName)
         return plt.show()
 
     
-    def derivation(self, array):
+    def derivation(self, array):#Get the derivative of a 1D-array.
         i = 0
         derivative = []
         while i < len(array)-1:
@@ -67,12 +56,17 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         self.derivative = np.array(derivative)
         return self.derivative
         
-    def medianFilter(self, array):
+    def medianFilter(self, array):#remove sal-and-pepper noise
         self.medfilt = medfilt(array).copy()
         return self.medfilt
         
         
-    def autoExtract(self, array):
+    def autoExtract(self, array):#Extract signal from a 1D-array
+        """This method derives the signal. The idea is the extrema values of 
+        the derivative flank the signal which has to be extracted. It is very 
+        sensitive to cosmic ray so it deals with a derivative signal which have
+        passed through a median filter which remove artefacts from cosmic rays."""
+        
         derivmax = self.medianFilter(self.derivation(array)).argmax()
         derivmin = self.medianFilter(self.derivation(array)).argmin()
         i = 0
