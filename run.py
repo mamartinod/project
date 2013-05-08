@@ -38,6 +38,6 @@ spatialspectrum.plotData()
 spatialspectrum.plotExtraction()
 
 spectralspectrum.plotData()
-spatialspectrum.plotExtraction()
+spectralspectrum.plotExtraction()
 
 pl.show()
