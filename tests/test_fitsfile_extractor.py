@@ -7,7 +7,7 @@ import unittest  # normal python package imports first
 
 import numpy as np  # then common but non standard third party packages
 
-from fitsfile_extractor import FitsFile  # then ones within your module seperated by a line
+from fitsfile_extractor import *  # then ones within your module seperated by a line
 
 
 class Test_FitsFile(unittest.TestCase):
@@ -32,7 +32,7 @@ class Test_FitsFile(unittest.TestCase):
         fakeFits = FitsFile()
         fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        fakeFits.spectrum(fakeFits.data)
+        fakeFits.spectrum()
         answer = fakeFits.spectrum.data        
         expected = np.array([[3., 4., 5.]])
 
@@ -42,35 +42,37 @@ class Test_FitsFile(unittest.TestCase):
         fakeFits = FitsFile()
         fakeFits.data = np.array([[0,1,2],[3,4,5],[6,7,8]])
         
-        fakeFits.spatialSpectrum(fakeFits.data)
+        fakeFits.spatialSpectrum()
         answer = fakeFits.spatialspectrum.data
         expected = np.array([[1., 4., 7.]])
         
         self.assertTrue(np.all(answer == expected))
 
     def test_derivation(self):
-        fakeFits = FitsFile()
-        fakeFits.data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        #fakeFits = FitsFile()
+        data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        spectrum = Spectrum(data)
 
-        answer = fakeFits.derivation(fakeFits.data)
+        answer = spectrum.derivation(data)
         expected = np.array([0,0,7,-5,-1,1,1,4,0,0,0,0,0,0,0,-3,-2,-2])
         
         self.assertTrue(np.all(answer == expected))
         
     def test_medianFilter(self):
-        fakeFits = FitsFile()
-        fakeFits.data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        spectrum = Spectrum(data)
 
-        answer = fakeFits.medianFilter(fakeFits.data)
+        answer = spectrum.medianFilter(data)
         expected = np.array([0.,0.,0.,2.,2.,2.,2.,3.,7.,7.,7.,7.,7.,7.,7.,7.,4.,2.,0.])
         
         self.assertTrue(np.all(answer == expected))
         
     def test_autoExtract(self):
-        fakeFits = FitsFile()
-        fakeFits.data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        #fakeFits = FitsFile()
+        data = np.array([0,0,0,7,2,1,2,3,7,7,7,7,7,7,7,7,4,2,0])
+        spectrum = Spectrum(data)
 
-        answer = fakeFits.autoExtract(fakeFits.data)
+        answer = spectrum.autoExtract()
         expected = np.array([0,0,0,0,0,1,2,3,7,7,7,7,7,7,7,7,0,0,0])
 
         self.assertTrue(np.all(answer == expected))
