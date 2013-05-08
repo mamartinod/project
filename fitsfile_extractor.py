@@ -32,15 +32,6 @@ class FitsFile(object):  # this will hold a fitsfile so its better to call it a 
         self.spatialspectrum = Spectrum(self.data.mean(axis=1), name)
         return self.spatialspectrum
         
-    """def plot(self, plotted): #Plot data
-        plt.figure()
-        plt.plot(plotted, 'r+')
-        plt.xlabel("pixels")
-        plt.ylabel("intensity")
-        if plotted.name:
-            plt.title(self.spectrumName)
-        return plt.show()"""
-        
         
 class Spectrum(object):
     def __init__(self, data, name="Plot", xaxis="Pixels", yaxis="Intensity"):
